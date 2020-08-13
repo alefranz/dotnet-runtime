@@ -43,12 +43,26 @@ namespace Microsoft.Extensions.Configuration.Json
             return _data;
         }
 
-        private void VisitElement(JsonElement element) {
+        private void VisitElement(JsonElement element)
+        {
+            var isEmpty = true;
+
             foreach (JsonProperty property in element.EnumerateObject())
             {
+                isEmpty = false;
                 EnterContext(property.Name);
                 VisitValue(property.Value);
                 ExitContext();
+            }
+
+            if (isEmpty)
+            {
+                //EnterContext("");
+                //_data[_currentPath] = "";
+                //ExitContext();
+
+                // when the object has no properties, we still want to have it as section
+                _data[_currentPath] = null;
             }
         }
 

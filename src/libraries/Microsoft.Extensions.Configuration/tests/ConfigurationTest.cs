@@ -772,7 +772,7 @@ namespace Microsoft.Extensions.Configuration.Test
         [Theory]
         [InlineData("Value1")]
         [InlineData("")]
-        public void SectionWithValueAndWithoutChildrenExists(string value)
+        public void KeyWithValueAndWithoutChildrenExistsAsSection(string value)
         {
             // Arrange
             var dict = new Dictionary<string, string>()
@@ -788,6 +788,44 @@ namespace Microsoft.Extensions.Configuration.Test
 
             // Assert
             Assert.True(sectionExists);
+        }
+
+        [Fact]
+        public void KeyWithNullValueAndWithoutChildrenIsNotASection()
+        {
+            // Arrange
+            var dict = new Dictionary<string, string>()
+            {
+                {"Mem1", null}
+            };
+            var configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddInMemoryCollection(dict);
+            var config = configurationBuilder.Build();
+
+            // Act
+            var sectionExists = config.GetSection("Mem1").Exists();
+
+            // Assert
+            Assert.False(sectionExists);
+        }
+
+        [Fact]
+        public void SectionWithChildrenHasNullValue()
+        {
+            // Arrange
+            var dict = new Dictionary<string, string>()
+            {
+                {"Mem1:KeyInMem1", "ValueInMem1"},
+            };
+            var configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddInMemoryCollection(dict);
+            var config = configurationBuilder.Build();
+
+            // Act
+            var sectionValue = config.GetSection("Mem1").Value;
+
+            // Assert
+            Assert.Null(sectionValue);
         }
 
         [Fact]

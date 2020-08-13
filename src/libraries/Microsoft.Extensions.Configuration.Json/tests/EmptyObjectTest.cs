@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.Configuration.Json.Test
             var jsonConfigSource = new JsonConfigurationProvider(new JsonConfigurationSource());
             jsonConfigSource.Load(TestStreamHelpers.StringToStream(json));
 
-            Assert.Empty(jsonConfigSource.Get("key"));
+            Assert.Equal("", jsonConfigSource.Get("key:"));
         }
 
         [Fact]
@@ -31,20 +31,23 @@ namespace Microsoft.Extensions.Configuration.Json.Test
             var jsonConfigSource = new JsonConfigurationProvider(new JsonConfigurationSource());
             jsonConfigSource.Load(TestStreamHelpers.StringToStream(json));
 
-            Assert.Empty(jsonConfigSource.Get("key"));
+            Assert.Equal("", jsonConfigSource.Get("key")); // see issue?
         }
 
         [Fact]
-        public void NestedEmptyObject_AddsNestedObjectAsEmptyString()
+        public void NestedObject_DoesNotAddParent()
         {
             var json = @"{
-                ""key"": { },
+                ""key"": {
+                    ""nested"": ""value""
+                },
             }";
 
             var jsonConfigSource = new JsonConfigurationProvider(new JsonConfigurationSource());
             jsonConfigSource.Load(TestStreamHelpers.StringToStream(json));
 
-            Assert.Empty(jsonConfigSource.Get("key"));
+            Assert.False(jsonConfigSource.TryGet("key", out _));
+            Assert.Equal("value", jsonConfigSource.Get("key:nested"));
         }
     }
 }

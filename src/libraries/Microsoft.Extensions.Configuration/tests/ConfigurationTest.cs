@@ -769,6 +769,27 @@ namespace Microsoft.Extensions.Configuration.Test
             Assert.False(sectionNotExists);
         }
 
+        [Theory]
+        [InlineData("Value1")]
+        [InlineData("")]
+        public void SectionWithValueAndWithoutChildrenExists(string value)
+        {
+            // Arrange
+            var dict = new Dictionary<string, string>()
+            {
+                {"Mem1", value}
+            };
+            var configurationBuilder = new ConfigurationBuilder();
+            configurationBuilder.AddInMemoryCollection(dict);
+            var config = configurationBuilder.Build();
+
+            // Act
+            var sectionExists = config.GetSection("Mem1").Exists();
+
+            // Assert
+            Assert.True(sectionExists);
+        }
+
         [Fact]
         public void NullSectionDoesNotExist()
         {

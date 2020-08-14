@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.Configuration.Json.Test
     public class EmptyObjectTest
     {
         [Fact]
-        public void EmptyObject_AddsEmptyString()
+        public void EmptyObject_AddsAsNull()
         {
             var json = @"{
                 ""key"": { },
@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.Configuration.Json.Test
             var jsonConfigSource = new JsonConfigurationProvider(new JsonConfigurationSource());
             jsonConfigSource.Load(TestStreamHelpers.StringToStream(json));
 
-            Assert.Equal("", jsonConfigSource.Get("key:"));
+            Assert.Null(jsonConfigSource.Get("key"));
         }
 
         [Fact]

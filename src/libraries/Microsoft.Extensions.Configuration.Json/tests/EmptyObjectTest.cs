@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.Configuration.Json.Test
             var jsonConfigSource = new JsonConfigurationProvider(new JsonConfigurationSource());
             jsonConfigSource.Load(TestStreamHelpers.StringToStream(json));
 
-            Assert.Equal("", jsonConfigSource.Get("key")); // see issue?
+            Assert.Equal("", jsonConfigSource.Get("key"));
         }
 
         [Fact]

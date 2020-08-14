@@ -44,24 +44,6 @@ namespace Microsoft.Extensions.Configuration.Json.Test
                         x => AssertSection(x, "k", null),
                     }),
             });
-
-            //Assert.Collection(configuration.GetChildren(),
-            //    new Action<IConfigurationSection>[] {
-            //        x => AssertSection(x, "a", "b"),
-            //        x => AssertSection(x, "c", null, new Action<IConfigurationSection>[] {
-            //            x => AssertSection(x, "d", "e"),
-            //        }),
-            //        x => AssertSection(x, "f", ""),
-            //        x => AssertSection(x, "g", ""),
-            //        x => AssertSection(x, "h", null, new Action<IConfigurationSection>[] {
-            //            x => AssertSection(x, "", ""),
-            //        }),
-            //        x => AssertSection(x, "i", null, new Action<IConfigurationSection>[] {
-            //            x => AssertSection(x, "k", null, new Action<IConfigurationSection>[] {
-            //                x => AssertSection(x, "", ""),
-            //            }),
-            //        }),
-            //});
         }
 
         private static void AssertSection(IConfigurationSection configurationSection, string key, string value)

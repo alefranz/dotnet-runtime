@@ -791,7 +791,7 @@ namespace Microsoft.Extensions.Configuration.Test
         }
 
         [Fact]
-        public void KeyWithNullValueAndWithoutChildrenIsNotASection()
+        public void KeyWithNullValueAndWithoutChildrenIsASectionButNotExists()
         {
             // Arrange
             var dict = new Dictionary<string, string>()
@@ -803,10 +803,14 @@ namespace Microsoft.Extensions.Configuration.Test
             var config = configurationBuilder.Build();
 
             // Act
+            var sections = config.GetChildren();
             var sectionExists = config.GetSection("Mem1").Exists();
+            var sectionChildren = config.GetSection("Mem1").GetChildren();
 
             // Assert
+            Assert.Single(sections, section => section.Key == "Mem1");
             Assert.False(sectionExists);
+            Assert.Empty(sectionChildren);
         }
 
         [Fact]

@@ -57,11 +57,6 @@ namespace Microsoft.Extensions.Configuration.Json
 
             if (isEmpty)
             {
-                //EnterContext("");
-                //_data[_currentPath] = "";
-                //ExitContext();
-
-                // when the object has no properties, we still want to have it as section
                 _data[_currentPath] = null;
             }
         }
